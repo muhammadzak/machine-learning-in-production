@@ -2,7 +2,7 @@ sudo easy_install pip
 sudo pip install --upgrade virtualenv
 virtualenv --system-site-packages -p python3 tensorflow # for Python 3.n
 source ~/tensorflow/bin/activate  
-source ~/tensorflow/bin/activate.csh 
+#source ~/tensorflow/bin/activate.csh 
 easy_install -U pip
 pip3 install --upgrade tensorflow
 pip3 install --upgrade
