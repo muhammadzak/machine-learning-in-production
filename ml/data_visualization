@@ -1,0 +1,64 @@
+
+Add matplotlib first
+
+https://github.com/muhammadzak/machine-learning-in-production/blob/master/ml/matplotlib_learning.ipynb
+#Seaborn is a high-level interface to Matplotlib.
+#Matplotlib, which will help us customize our plots further
+
+import pandas as pd
+
+# Matplotlib for additional customization
+from matplotlib import pyplot as plt
+%matplotlib inline
+
+# Seaborn for plotting and styling
+import seaborn as sns
+
+
+# Read dataset
+df = pd.read_csv('D:/Users/703182460/Downloads/Pokemon.csv', index_col=0,encoding = "ISO-8859-1")
+
+# Display first 5 observations
+df.head()
+
+#scatter plot
+
+sns.lmplot(x='Attack', y='Defense', data=df)
+ 
+# Alternative way
+# sns.lmplot(x=df.Attack, y=df.Defense)
+
+#fit_reg=False to remove the regression line, since we only want a scatter 
+#hue='Stage' to color our points by the Pokémon's evolution stage. This hue argument is very useful because it allows you to express a third dimension of information using color.
+# Scatterplot arguments
+sns.lmplot(x='Attack', y='Defense', data=df,
+           fit_reg=False, # No regression line
+           hue='Stage')   # Color by evolution stage
+ 
+ #https://seaborn.pydata.org/generated/seaborn.lmplot.html
+ #https://seaborn.pydata.org/tutorial/regression.html
+ #http://alanpryorjr.com/visualizations/seaborn/lmplot/lmplot/
+ 
+ # Plot using Seaborn
+sns.lmplot(x='Attack', y='Defense', data=df,
+           fit_reg=False, 
+           hue='Stage')
+ 
+# Tweak using Matplotlib
+plt.ylim(0, None)
+plt.xlim(0, None)
+#http://stattrek.com/descriptive-statistics/variables.aspx?Tutorial=AP
+http://www.physics.csbsju.edu/stats/box2.html
+# Boxplot
+
+sns.boxplot(data=df)
+#We can remove the Total since we have individual stats.
+#We can remove the Stage and Legendary columns because they aren't combat stats.
+# Pre-format DataFrame
+stats_df = df.drop(['Total', 'Stage', 'Legendary'], axis=1)
+ 
+# New boxplot using stats_df
+sns.boxplot(data=stats_df)
+
+#Violin plots are useful alternatives to box plots.
+#They show the distribution (through the thickness of the violin) instead of only the summary statistics.
