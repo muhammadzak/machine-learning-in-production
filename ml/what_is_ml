@@ -1,1 +1,15 @@
 https://becominghuman.ai/machine-learning-for-dummies-explained-in-2-mins-e83fbc55ac6d
+
+Step 1 : Asking the Right Question
+Use Machine Learning workflow to process and transform Bank Marketing data to create a prediction model. This model must predict which people are likely to subscribe a term deposit with 70% or greater accuracy.
+Step 2: Preparing data
+Data Rule 1: Closer the data is to what you are predicting, the better.
+Data Rule 2: Data will never be in format you need.
+- columns to eliminate - not used, no values, duplicates.
+- correlated columns - same information in different format, adds little values.
+- Molding Data - adjust data types, create columns if required;
+- Dealing with missing data - ignore , impute it;
+Data Rule 3: Accurately predicting rare events is difficult;
+Data Rule 4: Track how to manipulate data;
+
+https://github.com/Amitha353/Understanding-Machine-Learning-with-Python/blob/master/Bank%20Marketing/Bank%20Marketing.ipynb
