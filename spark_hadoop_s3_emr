@@ -1,0 +1,77 @@
+# Databricks notebook source
+# MAGIC %md 
+# MAGIC 
+# MAGIC #### Step 1 
+# MAGIC Upload dataset to s3(use aws cli to upload Ex:aws s3 cp /tmp/foo/people_example.csv s3://bucket/ )
+# MAGIC 
+# MAGIC #### step 2
+# MAGIC Create spark,hadoop and Hive EMR cluster
+# MAGIC 
+# MAGIC #### Step 3
+# MAGIC ##### Copy data from s3 to hadoop cluster(Copy data from s3 to master node(Single machine))
+# MAGIC 
+# MAGIC aws s3 cp s3://hadooproject/sample_07.csv /home/hadoop/data/
+# MAGIC aws s3 cp s3://hadooproject/sample_08.csv /home/hadoop/data/
+# MAGIC aws s3 cp s3://hadooproject/people_example.csv /home/hadoop/data/
+# MAGIC 
+# MAGIC #### Step 4
+# MAGIC 
+# MAGIC ##### Copy data from master node to hdfs(multinode:Example emr 3 node cluster)
+# MAGIC 
+# MAGIC hdfs dfs -ls /
+# MAGIC hdfs dfs -mkdir /input_data
+# MAGIC hdfs dfs -ls /input_data
+# MAGIC 
+# MAGIC hdfs dfs -put /home/hadoop/data/sample_07.csv /input_data/
+# MAGIC hdfs dfs -ls /input_data
+# MAGIC 
+# MAGIC hdfs dfs -put /home/hadoop/data/sample_08.csv /input_data
+# MAGIC hdfs dfs -ls /input_data
+# MAGIC 
+# MAGIC hdfs dfs -put /home/hadoop/data/people_example.csv /input_data
+# MAGIC hdfs dfs -ls /input_data
+# MAGIC 
+# MAGIC #### Step 5
+# MAGIC ##### Start apache spark
+# MAGIC spark-shell
+# MAGIC 
+# MAGIC ##### import spark sql 
+# MAGIC 
+# MAGIC import spark.implicits._
+# MAGIC import spark.sql
+# MAGIC 
+# MAGIC sql("CREATE TABLE IF NOT EXISTS poeple (first_name STRING, last_name STRING,country STRING,age INT)")
+# MAGIC sql("LOAD DATA INPATH '/input_data/people_example.csv' INTO TABLE poeple")
+# MAGIC val poeple = sql("SELECT * from poeple")
+# MAGIC poeple.show()
+# MAGIC 
+# MAGIC 
+# MAGIC #### Step 6 
+# MAGIC ##### New terminal start hive
+# MAGIC show tables;
+# MAGIC 
+# MAGIC #### step 7
+# MAGIC ##### create few more table in apache spark and do some basic analysis
+# MAGIC sql("CREATE TABLE sample_07 (code string,description string,total_emp int,salary int) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' STORED AS TextFile")
+# MAGIC 
+# MAGIC sql("LOAD DATA INPATH '/input_data/sample_07.csv' OVERWRITE INTO TABLE sample_07")
+# MAGIC 
+# MAGIC val df_07 = sql("SELECT * from sample_07")
+# MAGIC 
+# MAGIC df_07.show()
+# MAGIC 
+# MAGIC df_07.filter(df_07("salary") > 150000).show()
+# MAGIC 
+# MAGIC sql("CREATE TABLE sample_08 (code string,description string,total_emp int,salary int) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' STORED AS TextFile")
+# MAGIC 
+# MAGIC sqlContext.sql("LOAD DATA INPATH '/input_data/sample_08.csv' OVERWRITE INTO TABLE sample_08")
+# MAGIC 
+# MAGIC val df_08 = sql("SELECT * from sample_08")
+# MAGIC 
+# MAGIC val df_09 = df_07.join(df_08, df_07("code") === df_08("code")).select(df_07.col("code"),df_07.col("description"))
+# MAGIC 
+# MAGIC df_09.write.saveAsTable("sample_09")
+
+# COMMAND ----------
+
+
